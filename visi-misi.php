@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visi & Misi - SMKS PGRI Bandung</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -39,7 +36,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Navbar -->
     <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-slate-100 py-3">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="index.php" class="flex items-center gap-3">
@@ -55,7 +51,6 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
     <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 text-white py-16 px-4 mb-10 animate-fade-up">
         <div class="max-w-7xl mx-auto text-center">
             <span class="text-yellow-400 text-xs font-extrabold uppercase tracking-widest">Portal Informasi Resmi</span>
@@ -63,7 +58,6 @@
         </div>
     </section>
 
-    <!-- Isi Visi Misi -->
     <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div class="space-y-8">
             <!-- Box Visi -->
@@ -74,7 +68,6 @@
                 </p>
             </div>
 
-            <!-- Box Misi -->
             <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm animate-fade-up delay-200 transition duration-300 hover:shadow-xl">
                 <span class="inline-block bg-red-50 text-red-700 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase mb-4">Misi Sekolah</span>
                 <ol class="space-y-3 text-slate-700 text-sm leading-relaxed list-decimal list-inside font-medium">
@@ -92,7 +85,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 border-t border-slate-800 text-center">
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung. All Rights Reserved.</p>
     </footer>

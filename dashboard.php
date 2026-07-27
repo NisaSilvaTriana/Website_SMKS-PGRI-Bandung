@@ -10,9 +10,8 @@ $pesan = '';
 $edit_berita = null;
 $edit_guru   = null;
 
-// ==========================================
-// 1. LOGIKA UPDATE STATISTIK SEKOLAH
-// ==========================================
+
+// UPDATE STATISTIK SEKOLAH
 if (isset($_POST['update_statistik'])) {
     $guru            = (int)$_POST['guru'];
     $siswa_laki      = (int)$_POST['siswa_laki'];
@@ -34,9 +33,8 @@ if (isset($_POST['update_statistik'])) {
     exit;
 }
 
-// ==========================================
-// 2. LOGIKA KELOLA BERITA (CRUD)
-// ==========================================
+
+// LOGIKA KELOLA BERITA (CRUD)
 if (isset($_GET['hapus_berita'])) {
     $id_hapus = mysqli_real_escape_string($koneksi, $_GET['hapus_berita']);
     mysqli_query($koneksi, "DELETE FROM berita WHERE id='$id_hapus'");
@@ -92,9 +90,8 @@ if (isset($_POST['simpan_berita'])) {
     }
 }
 
-// ==========================================
-// 3. LOGIKA KELOLA GURU & STAFF (CRUD)
-// ==========================================
+
+// LOGIKA KELOLA GURU & STAFF (CRUD)
 if (isset($_GET['hapus_guru'])) {
     $id_hapus = mysqli_real_escape_string($koneksi, $_GET['hapus_guru']);
     mysqli_query($koneksi, "DELETE FROM guru WHERE id='$id_hapus'");
@@ -119,7 +116,7 @@ if (isset($_POST['simpan_guru'])) {
     $tmp_name   = $_FILES['foto']['tmp_name'];
     $error_file = $_FILES['foto']['error'];
 
-    // Default foto awal atau foto lama
+    
     $path_foto_baru = $edit_guru['foto'] ?? 'img/default.jpg';
 
     if ($error_file === 0) {
@@ -152,7 +149,7 @@ if (isset($_POST['simpan_guru'])) {
     }
 }
 
-// Ambil Statistik Terkini dari DB
+
 $q_stat = mysqli_query($koneksi, "SELECT * FROM statistik WHERE id=1");
 $stat_curr = mysqli_fetch_assoc($q_stat);
 ?>
@@ -162,18 +159,14 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - SMKS PGRI Bandung</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
 </head>
 <body class="bg-slate-100 p-6">
     <div class="max-w-7xl mx-auto space-y-6">
 
-        <!-- Top Header Admin -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold text-blue-900">Dashboard Panel Admin</h1>
@@ -189,7 +182,6 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
             </div>
         </div>
 
-        <!-- Notifikasi Aksi -->
         <?php if (isset($_GET['status'])): ?>
             <div class="bg-emerald-100 text-emerald-800 p-4 rounded-xl text-xs font-bold flex items-center gap-2">
                 <i class="fa-solid fa-circle-check text-sm"></i> Operasi data berhasil diproses!
@@ -205,10 +197,8 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
         <!-- GRID UTAMA PANEL ADMIN -->
         <div class="grid lg:grid-cols-3 gap-6">
 
-            <!-- KOLOM KIRI: Form Update Statistik, Form Berita, & Form Guru -->
             <div class="lg:col-span-1 space-y-6">
                 
-                <!-- 1. Form Update Statistik Sekolah -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-chart-pie text-yellow-500"></i> Update Statistik Sekolah
@@ -254,7 +244,6 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
                     </form>
                 </div>
 
-                <!-- 2. Form Tambah / Edit Guru & Staff -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-user-tie text-emerald-600"></i>
@@ -287,7 +276,6 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
                     </form>
                 </div>
 
-                <!-- 3. Form Tambah / Edit Berita -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-pen-to-square text-red-600"></i>
@@ -319,10 +307,8 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
 
             </div>
 
-            <!-- KOLOM KANAN: Tabel Guru, Tabel Berita, & Pesan Kontak Masuk -->
             <div class="lg:col-span-2 space-y-6">
                 
-                <!-- 1. Tabel Kelola Data Guru & Staff -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-users text-emerald-600"></i> Data Guru & Staff Pengajar
@@ -369,7 +355,6 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
                     </div>
                 </div>
 
-                <!-- 2. Tabel Kelola Berita -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-newspaper text-blue-900"></i> Daftar Berita Diterbitkan
@@ -412,7 +397,6 @@ $stat_curr = mysqli_fetch_assoc($q_stat);
                     </div>
                 </div>
 
-                <!-- 3. Tabel Pesan Masuk Pengunjung -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h2 class="text-sm font-bold text-blue-950 mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-envelope text-blue-900"></i> Pesan Masuk Pengunjung

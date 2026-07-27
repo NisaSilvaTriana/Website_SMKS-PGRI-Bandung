@@ -1,7 +1,6 @@
 <?php 
 include 'koneksi.php'; 
 
-// 1. Proses Simpan Pesan Kontak dari Pengunjung
 $pesan_status = '';
 if (isset($_POST['kirim_pesan'])) {
     $nama   = mysqli_real_escape_string($koneksi, $_POST['nama']);
@@ -15,11 +14,9 @@ if (isset($_POST['kirim_pesan'])) {
     }
 }
 
-// 2. Ambil Data Statistik dari Database (8 Item Kemendikbud)
 $q_stat = mysqli_query($koneksi, "SELECT * FROM statistik WHERE id=1");
 $stat = mysqli_fetch_assoc($q_stat);
 
-// Ambil jumlah guru dinamis jika ada dari tabel guru
 $q_guru_cnt = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM guru");
 $tot_guru_db = mysqli_fetch_assoc($q_guru_cnt)['total'] ?? 0;
 $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
@@ -30,16 +27,12 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMKS PGRI Bandung - Official Website</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style> 
         body { font-family: 'Plus Jakarta Sans', sans-serif; } 
 
-        /* Keyframes Animasi Smooth */
         @keyframes ultraSmoothUp {
             0% {
                 opacity: 0;
@@ -51,7 +44,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
             }
         }
 
-        /* Initial State untuk Scroll Animation */
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(40px) scale(0.98);
@@ -59,7 +51,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Class Aktif Saat Elemen Terlihat di Viewport */
         .reveal-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -68,7 +59,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Header Top Info -->
     <div class="bg-blue-900 text-white text-xs py-2 px-4 border-b border-blue-800">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-4">
@@ -81,7 +71,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </div>
 
-    <!-- Main Navigation (Khusus Pengunjung - Tidak Ada Tombol Login) -->
     <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <a href="index.php" class="flex items-center gap-3">
@@ -92,7 +81,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
                 </div>
             </a>
 
-            <!-- Navigation Links -->
             <div class="hidden md:flex items-center space-x-8 text-sm font-bold text-slate-700">
                 <a href="index.php" class="text-blue-900">Beranda</a>
                 <a href="visi-misi.php" class="hover:text-blue-900 transition">Visi & Misi</a>
@@ -105,7 +93,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </nav>
 
-    <!-- Hero Banner Utama  -->
     <section class="relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white py-20 lg:py-24 overflow-hidden reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -128,7 +115,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
                 </div>
             </div>
 
-            <!-- Program Unggulan Sekolah -->
             <div class="bg-white/10 border border-white/20 p-6 sm:p-8 rounded-3xl backdrop-blur-md">
                 <h3 class="text-xl font-bold text-yellow-400 mb-4 border-b border-white/10 pb-3">
                     <i class="fa-solid fa-star mr-2"></i> Program Unggulan Sekolah
@@ -160,94 +146,50 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- SECTION STATISTIK SEKOLAH  -->
     <section class="py-12 bg-slate-50 border-t border-b border-slate-200 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 tracking-tight">Statistik Sekolah</h2>
 
-            <!-- Grid Container Utama -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-2 md:grid-cols-4 divide-x divide-y divide-slate-200">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-200">
                 
-                <!-- 1. Guru -->
                 <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
                     <div>
-                        <i class="fa-solid fa-users text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Guru</p>
+                        <i class="fa-solid fa-chalkboard-user text-slate-600 text-xl mb-3"></i>
+                        <p class="text-xs font-semibold text-slate-500 mb-2">Guru & Staff</p>
                     </div>
                     <h3 class="text-3xl font-extrabold text-blue-600"><?= $jml_guru ?></h3>
                 </div>
 
-                <!-- 2. Siswa Laki-laki -->
                 <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
                     <div>
-                        <i class="fa-solid fa-mars text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Siswa Laki-laki</p>
+                        <i class="fa-solid fa-users text-slate-600 text-xl mb-3"></i>
+                        <p class="text-xs font-semibold text-slate-500 mb-2">Total Siswa</p>
                     </div>
-                    <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['siswa_laki'] ?? 100 ?></h3>
+                    <h3 class="text-3xl font-extrabold text-blue-600">
+                        <?= ($stat['siswa_laki'] ?? 100) + ($stat['siswa_perempuan'] ?? 133) ?>
+                    </h3>
                 </div>
 
-                <!-- 3. Siswa Perempuan -->
-                <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
-                    <div>
-                        <i class="fa-solid fa-venus text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Siswa Perempuan</p>
-                    </div>
-                    <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['siswa_perempuan'] ?? 133 ?></h3>
-                </div>
-
-                <!-- 4. Rombongan Belajar -->
                 <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
                     <div>
                         <i class="fa-solid fa-shapes text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Rombongan...</p>
+                        <p class="text-xs font-semibold text-slate-500 mb-2">Rombongan Belajar</p>
                     </div>
                     <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['rombel'] ?? 12 ?></h3>
                 </div>
 
-                <!-- 5. Daya Tampung -->
                 <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
                     <div>
-                        <i class="fa-solid fa-graduation-cap text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Daya Tampung...</p>
-                    </div>
-                    <h3 class="text-3xl font-extrabold text-blue-600 flex items-center gap-1">
-                        <?= $stat['daya_tampung'] ?? '180' ?>
-                        <i class="fa-regular fa-circle-question text-blue-500 text-xs cursor-pointer" title="Daya tampung siswa baru"></i>
-                    </h3>
-                </div>
-
-                <!-- 6. Ruang Kelas -->
-                <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
-                    <div>
-                        <i class="fa-solid fa-house-chimney text-slate-600 text-xl mb-3"></i>
+                        <i class="fa-solid fa-door-open text-slate-600 text-xl mb-3"></i>
                         <p class="text-xs font-semibold text-slate-500 mb-2">Ruang Kelas</p>
                     </div>
                     <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['ruang_kelas'] ?? 9 ?></h3>
-                </div>
-
-                <!-- 7. Laboratorium -->
-                <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
-                    <div>
-                        <i class="fa-solid fa-wand-magic-sparkles text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Laboratorium</p>
-                    </div>
-                    <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['laboratorium'] ?? 1 ?></h3>
-                </div>
-
-                <!-- 8. Perpustakaan -->
-                <div class="p-6 flex flex-col justify-between hover:bg-slate-50/50 transition">
-                    <div>
-                        <i class="fa-solid fa-book-bookmark text-slate-600 text-xl mb-3"></i>
-                        <p class="text-xs font-semibold text-slate-500 mb-2">Perpustakaan</p>
-                    </div>
-                    <h3 class="text-3xl font-extrabold text-blue-600"><?= $stat['perpustakaan'] ?? 1 ?></h3>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- Ringkasan Visi Misi (Animasi Saat Di-scroll) -->
     <section class="py-16 bg-white border-b border-slate-100 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span class="text-red-600 text-xs font-bold uppercase tracking-widest">Sekilas Identitas</span>
@@ -263,7 +205,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- Ringkasan Berita Terkini -->
     <section class="py-16 bg-slate-100 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-10">
@@ -305,7 +246,6 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- SECTION KONTAK DAN ALAMAT  -->
     <section id="kontak" class="bg-blue-950 text-white py-16 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10">
             <div>
@@ -338,30 +278,27 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 border-t border-slate-800 text-center">
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung. All Rights Reserved.</p>
     </footer>
 
-    <!-- Script Intersection Observer (Memicu Animasi Saat Gulir) -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const observerOptions = {
                 root: null,
                 rootMargin: "0px",
-                threshold: 0.15 // Elemen akan memicu animasi saat 15% bagian masuk ke layar
+                threshold: 0.15 
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add("is-visible");
-                        observer.unobserve(entry.target); // Hentikan pemantauan setelah animasi muncul
+                        observer.unobserve(entry.target); 
                     }
                 });
             }, observerOptions);
 
-            // Daftarkan semua elemen dengan class 'reveal-on-scroll'
             document.querySelectorAll(".reveal-on-scroll").forEach(el => observer.observe(el));
         });
     </script>

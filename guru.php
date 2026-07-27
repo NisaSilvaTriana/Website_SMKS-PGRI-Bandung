@@ -5,16 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guru & Staff - SMKS PGRI Bandung</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* Keyframes Animasi Super Smooth */
         @keyframes ultraSmoothUp {
             0% {
                 opacity: 0;
@@ -26,7 +22,6 @@
             }
         }
 
-        /* Class Animasi Ekstra Halus */
         .animate-fade-up {
             opacity: 0;
             animation: ultraSmoothUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -38,7 +33,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Navbar -->
     <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-slate-100 py-3">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="index.php" class="flex items-center gap-3">
@@ -54,7 +48,6 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
     <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 text-white py-20 px-4 mb-10 animate-fade-up">
         <div class="max-w-7xl mx-auto text-center">
             <span class="text-yellow-400 text-xs font-extrabold uppercase tracking-widest">Tenaga Pendidik</span>
@@ -62,7 +55,6 @@
         </div>
     </section>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 animate-fade-up delay-100">
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
             <?php
@@ -85,7 +77,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 border-t border-slate-800 text-center">
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung. All Rights Reserved.</p>
     </footer>

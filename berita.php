@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Berita & Informasi - SMKS PGRI Bandung</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -38,7 +35,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Navbar -->
     <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-slate-100 py-3">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="index.php" class="flex items-center gap-3">
@@ -63,7 +59,6 @@
         </div>
     </section>
 
-    <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 animate-fade-up delay-100">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php
@@ -73,7 +68,6 @@
             ?>
                 <article class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between overflow-hidden">
                     <div>
-                        <!-- Menampilkan Foto Berita  -->
                         <?php if (!empty($b['gambar']) && file_exists('img/' . $b['gambar'])): ?>
                             <div class="w-full h-48 overflow-hidden bg-slate-100">
                                 <img src="img/<?= $b['gambar'] ?>" alt="<?= $b['judul'] ?>" class="w-full h-full object-cover hover:scale-105 transition duration-300">
@@ -81,7 +75,6 @@
                         <?php endif; ?>
 
                         <div class="p-6">
-                            <!-- Badge & Tanggal -->
                             <div class="flex justify-between items-center mb-3">
                                 <span class="bg-blue-50 text-blue-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">Informasi</span>
                                 <span class="text-xs text-slate-400 font-semibold flex items-center gap-1">
@@ -90,12 +83,10 @@
                                 </span>
                             </div>
 
-                            <!-- Judul Berita -->
                             <h2 class="text-lg font-bold text-slate-900 mb-3 hover:text-red-600 transition leading-snug">
                                 <?= $b['judul'] ?>
                             </h2>
 
-                            <!-- Isi Berita Ringkas -->
                             <p class="text-slate-600 text-xs leading-relaxed line-clamp-3">
                                 <?= $b['isi'] ?>
                             </p>
