@@ -36,7 +36,35 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
+    <style> 
+        body { font-family: 'Plus Jakarta Sans', sans-serif; } 
+
+        /* Keyframes Animasi Smooth */
+        @keyframes ultraSmoothUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Initial State untuk Scroll Animation */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            will-change: transform, opacity;
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Class Aktif Saat Elemen Terlihat di Viewport */
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
@@ -77,8 +105,8 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </nav>
 
-    <!-- Hero Banner Utama -->
-    <section class="relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white py-20 lg:py-24 overflow-hidden">
+    <!-- Hero Banner Utama  -->
+    <section class="relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white py-20 lg:py-24 overflow-hidden reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             <div>
                 <span class="inline-block bg-yellow-500 text-slate-950 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-4">
@@ -132,12 +160,12 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- SECTION STATISTIK SEKOLAH (8 Box Sesuai Tampilan Dapo Kemendikbud) -->
-    <section class="py-12 bg-slate-50 border-t border-b border-slate-200">
+    <!-- SECTION STATISTIK SEKOLAH  -->
+    <section class="py-12 bg-slate-50 border-t border-b border-slate-200 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-6 tracking-tight">Statistik Sekolah</h2>
 
-            <!-- Grid Container Utama dengan Border Luar & Pembatas Grid -->
+            <!-- Grid Container Utama -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-2 md:grid-cols-4 divide-x divide-y divide-slate-200">
                 
                 <!-- 1. Guru -->
@@ -219,8 +247,8 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- Ringkasan Visi Misi -->
-    <section class="py-16 bg-white border-b border-slate-100">
+    <!-- Ringkasan Visi Misi (Animasi Saat Di-scroll) -->
+    <section class="py-16 bg-white border-b border-slate-100 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span class="text-red-600 text-xs font-bold uppercase tracking-widest">Sekilas Identitas</span>
             <h2 class="text-3xl font-extrabold text-blue-950 mt-1 mb-6">Visi SMKS PGRI Bandung</h2>
@@ -236,7 +264,7 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
     </section>
 
     <!-- Ringkasan Berita Terkini -->
-    <section class="py-16 bg-slate-100">
+    <section class="py-16 bg-slate-100 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-10">
                 <div>
@@ -277,8 +305,8 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         </div>
     </section>
 
-    <!-- SECTION KONTAK DAN ALAMAT -->
-    <section id="kontak" class="bg-blue-950 text-white py-16">
+    <!-- SECTION KONTAK DAN ALAMAT  -->
+    <section id="kontak" class="bg-blue-950 text-white py-16 reveal-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10">
             <div>
                 <h2 class="text-3xl font-extrabold mb-4">Hubungi SMKS PGRI Bandung</h2>
@@ -315,5 +343,27 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung. All Rights Reserved.</p>
     </footer>
 
+    <!-- Script Intersection Observer (Memicu Animasi Saat Gulir) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.15 // Elemen akan memicu animasi saat 15% bagian masuk ke layar
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target); // Hentikan pemantauan setelah animasi muncul
+                    }
+                });
+            }, observerOptions);
+
+            // Daftarkan semua elemen dengan class 'reveal-on-scroll'
+            document.querySelectorAll(".reveal-on-scroll").forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
