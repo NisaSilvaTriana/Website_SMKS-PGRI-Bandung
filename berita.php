@@ -11,7 +11,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        
+        @keyframes ultraSmoothUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+       
+        .animate-fade-up {
+            opacity: 0;
+            animation: ultraSmoothUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            will-change: transform, opacity;
+        }
+
+        .delay-100 { animation-delay: 0.15s; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
@@ -32,7 +55,7 @@
     </nav>
 
     <!-- Header Banner -->
-    <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 text-white py-12 px-4 mb-10">
+    <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 text-white py-20 px-4 mb-10 animate-fade-up">
         <div class="max-w-7xl mx-auto text-center">
             <span class="text-yellow-400 text-xs font-extrabold uppercase tracking-widest">Portal Informasi Resmi</span>
             <h1 class="text-3xl sm:text-4xl font-black mt-2">Kabar & Agenda SMKS PGRI Bandung</h1>
@@ -41,7 +64,7 @@
     </section>
 
     <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 animate-fade-up delay-100">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php
             $query_berita = mysqli_query($koneksi, "SELECT * FROM berita ORDER BY id DESC");
@@ -50,7 +73,7 @@
             ?>
                 <article class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between overflow-hidden">
                     <div>
-                        <!-- Menampilkan Foto Berita (Jika Ada) -->
+                        <!-- Menampilkan Foto Berita  -->
                         <?php if (!empty($b['gambar']) && file_exists('img/' . $b['gambar'])): ?>
                             <div class="w-full h-48 overflow-hidden bg-slate-100">
                                 <img src="img/<?= $b['gambar'] ?>" alt="<?= $b['judul'] ?>" class="w-full h-full object-cover hover:scale-105 transition duration-300">
@@ -79,7 +102,7 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Baca Selengkapnya -->
+                    
                     <div class="px-6 pb-6 pt-2 border-t border-slate-100 flex justify-between items-center">
                         <a href="detail-berita.php?id=<?= $b['id'] ?>" class="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
                             Baca Selengkapnya <i class="fa-solid fa-chevron-right text-[10px]"></i>
