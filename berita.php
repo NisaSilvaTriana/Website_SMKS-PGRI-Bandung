@@ -11,7 +11,6 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        
         @keyframes ultraSmoothUp {
             0% {
                 opacity: 0;
@@ -23,7 +22,6 @@
             }
         }
 
-       
         .animate-fade-up {
             opacity: 0;
             animation: ultraSmoothUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -50,7 +48,6 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
     <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 text-white py-20 px-4 mb-10 animate-fade-up">
         <div class="max-w-7xl mx-auto text-center">
             <span class="text-yellow-400 text-xs font-extrabold uppercase tracking-widest">Portal Informasi Resmi</span>
@@ -70,7 +67,7 @@
                     <div>
                         <?php if (!empty($b['gambar']) && file_exists('img/' . $b['gambar'])): ?>
                             <div class="w-full h-48 overflow-hidden bg-slate-100">
-                                <img src="img/<?= $b['gambar'] ?>" alt="<?= $b['judul'] ?>" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                                <img src="img/<?= $b['gambar'] ?>" alt="<?= htmlspecialchars($b['judul']) ?>" class="w-full h-full object-cover hover:scale-105 transition duration-300">
                             </div>
                         <?php endif; ?>
 
@@ -84,16 +81,15 @@
                             </div>
 
                             <h2 class="text-lg font-bold text-slate-900 mb-3 hover:text-red-600 transition leading-snug">
-                                <?= $b['judul'] ?>
+                                <?= htmlspecialchars($b['judul']) ?>
                             </h2>
 
                             <p class="text-slate-600 text-xs leading-relaxed line-clamp-3">
-                                <?= $b['isi'] ?>
+                                <?= strip_tags($b['isi'], '<b><i><u><strong><em>') ?>
                             </p>
                         </div>
                     </div>
 
-                    
                     <div class="px-6 pb-6 pt-2 border-t border-slate-100 flex justify-between items-center">
                         <a href="detail-berita.php?id=<?= $b['id'] ?>" class="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
                             Baca Selengkapnya <i class="fa-solid fa-chevron-right text-[10px]"></i>
@@ -113,7 +109,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 border-t border-slate-800 text-center">
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung. All Rights Reserved.</p>
     </footer>
