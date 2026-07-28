@@ -1,10 +1,9 @@
 <?php
-// Proteksi Cookie Session (Anti Cookie Theft / Anti XSS Theft)
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_samesite', 'Lax');
-
+// Cek dan set konfigurasi session HANYA SEBELUM session dimulai
 if (session_status() === PHP_SESSION_NONE) {
+    @ini_set('session.cookie_httponly', 1);
+    @ini_set('session.use_only_cookies', 1);
+    @ini_set('session.cookie_samesite', 'Lax');
     session_start();
 }
 
@@ -13,7 +12,7 @@ $user = "root";
 $pass = "";  
 $db   = "db_sekolah";       
 
-// Sembunyikan pesan error database internal
+// Sembunyikan pesan error database internal ke publik
 mysqli_report(MYSQLI_REPORT_OFF);
 $koneksi = @mysqli_connect($host, $user, $pass, $db);
 
