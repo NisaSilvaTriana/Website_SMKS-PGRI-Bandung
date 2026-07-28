@@ -1,7 +1,6 @@
 <?php
 include 'koneksi.php';
 
-// Proteksi Session Login Admin
 if (!isset($_SESSION['admin_login']) || $_SESSION['admin_login'] !== true) {
     header("Location: login.php");
     exit;
@@ -11,14 +10,13 @@ $pesan = '';
 $edit_berita = null;
 $edit_guru   = null;
 
-// Fungsi Upload Gambar Aman (Validasi Ukuran, Ekstensi & MIME Type Fisik)
 function upload_gambar_aman($file_input_name, $existing_path = '') {
     if (!isset($_FILES[$file_input_name]) || $_FILES[$file_input_name]['error'] !== UPLOAD_ERR_OK) {
         return ['status' => true, 'path' => $existing_path];
     }
 
     $file = $_FILES[$file_input_name];
-    $max_size = 3 * 1024 * 1024; // Limit Maksimal 3MB
+    $max_size = 3 * 1024 * 1024;
 
     if ($file['size'] > $max_size) {
         return ['status' => false, 'error' => 'Ukuran file maksimal 3MB!'];
@@ -30,7 +28,6 @@ function upload_gambar_aman($file_input_name, $existing_path = '') {
         return ['status' => false, 'error' => 'Format file harus JPG, JPEG, PNG, atau WEBP!'];
     }
 
-    // Pengecekan MIME Type Fisik File
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime  = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
@@ -40,7 +37,6 @@ function upload_gambar_aman($file_input_name, $existing_path = '') {
         return ['status' => false, 'error' => 'File yang diunggah bukan gambar valid!'];
     }
 
-    // Rename Acak Unik (Mencegah Eksekusi PHP Backdoor)
     $new_filename = time() . '_' . bin2hex(random_bytes(8)) . '.' . $ext;
     $target_dir   = 'img/';
     
@@ -57,12 +53,11 @@ function upload_gambar_aman($file_input_name, $existing_path = '') {
     return ['status' => false, 'error' => 'Gagal mengunggah file ke server.'];
 }
 
-// 1. LOGIKA UPDATE STATISTIK (Disesuaikan dengan index: Guru, Total Siswa, Rombel, Ruang Kelas)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_statistik'])) {
     verify_csrf_token($_POST['csrf_token'] ?? '');
 
     $guru        = (int)($_POST['guru'] ?? 0);
-    $siswa_laki  = (int)($_POST['siswa_laki'] ?? 0); // Total siswa disimpan ke siswa_laki agar query di index tetap berjalan aman
+    $siswa_laki  = (int)($_POST['siswa_laki'] ?? 0);
     $rombel      = (int)($_POST['rombel'] ?? 0);
     $ruang_kelas = (int)($_POST['ruang_kelas'] ?? 0);
 
@@ -78,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_statistik'])) 
     exit;
 }
 
-// 2. LOGIKA KELOLA BERITA (CRUD Prepared Statement)
 if (isset($_GET['hapus_berita'])) {
     verify_csrf_token($_GET['csrf_token'] ?? '');
     $id_hapus = (int)$_GET['hapus_berita'];
@@ -131,7 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['simpan_berita'])) {
     }
 }
 
-// 3. LOGIKA KELOLA GURU (CRUD Prepared Statement)
 if (isset($_GET['hapus_guru'])) {
     verify_csrf_token($_GET['csrf_token'] ?? '');
     $id_hapus = (int)$_GET['hapus_guru'];
@@ -184,7 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['simpan_guru'])) {
     }
 }
 
-// Ambil Statistik Terkini
 $q_stat = mysqli_query($koneksi, "SELECT * FROM statistik WHERE id=1");
 $stat_curr = mysqli_fetch_assoc($q_stat);
 $csrf_token = generate_csrf_token();
@@ -195,17 +187,13 @@ $csrf_token = generate_csrf_token();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - SMKS PGRI Bandung</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style> body { font-family: 'Plus Jakarta Sans', sans-serif; } </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Header Top Info (Sesuaikan dengan index.php) -->
     <div class="bg-blue-900 text-white text-xs py-2 px-4 border-b border-blue-800">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-4">
@@ -218,7 +206,6 @@ $csrf_token = generate_csrf_token();
         </div>
     </div>
 
-    <!-- Main Navigation Bar Admin -->
     <nav class="bg-white sticky top-0 z-50 shadow-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <a href="dashboard.php" class="flex items-center gap-3">
@@ -240,10 +227,8 @@ $csrf_token = generate_csrf_token();
         </div>
     </nav>
 
-    <!-- Content Area Utama -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-6">
 
-        <!-- Banner Hero Dashboard (Senada dengan Banner Utama Index) -->
         <div class="relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-lg border border-white/10 overflow-hidden">
             <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -267,7 +252,6 @@ $csrf_token = generate_csrf_token();
             </div>
         </div>
 
-        <!-- Notifikasi Aksi -->
         <?php if (isset($_GET['status'])): ?>
             <div class="bg-emerald-100 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-sm">
                 <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i> Operasi data berhasil diproses dan tersimpan dengan aman!
@@ -280,13 +264,10 @@ $csrf_token = generate_csrf_token();
             </div>
         <?php endif; ?>
 
-        <!-- GRID UTAMA PANEL ADMIN -->
         <div class="grid lg:grid-cols-3 gap-6">
 
-            <!-- KOLOM KIRI: Form Update Statistik, Form Guru, & Form Berita -->
             <div class="lg:col-span-1 space-y-6">
                 
-                <!-- 1. Form Update Statistik Sekolah (SESUAI DENGAN INDEX) -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="border-b border-slate-100 pb-3 mb-4 flex items-center justify-between">
                         <h2 class="text-sm font-extrabold text-blue-950 flex items-center gap-2">
@@ -321,7 +302,6 @@ $csrf_token = generate_csrf_token();
                     </form>
                 </div>
 
-                <!-- 2. Form Tambah / Edit Guru & Staff -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="border-b border-slate-100 pb-3 mb-4">
                         <h2 class="text-sm font-extrabold text-blue-950 flex items-center gap-2">
@@ -354,7 +334,6 @@ $csrf_token = generate_csrf_token();
                     </form>
                 </div>
 
-                <!-- 3. Form Tambah / Edit Berita -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="border-b border-slate-100 pb-3 mb-4">
                         <h2 class="text-sm font-extrabold text-blue-950 flex items-center gap-2">
@@ -389,10 +368,8 @@ $csrf_token = generate_csrf_token();
 
             </div>
 
-            <!-- KOLOM KANAN: Tabel Data Guru, Berita, & Pesan Masuk -->
             <div class="lg:col-span-2 space-y-6">
                 
-                <!-- 1. Tabel Kelola Data Guru & Staff -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-sm font-extrabold text-blue-950 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
                         <i class="fa-solid fa-users text-emerald-600"></i> Data Guru & Staff Pengajar
@@ -439,7 +416,6 @@ $csrf_token = generate_csrf_token();
                     </div>
                 </div>
 
-                <!-- 2. Tabel Kelola Berita -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-sm font-extrabold text-blue-950 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
                         <i class="fa-solid fa-newspaper text-blue-900"></i> Daftar Berita Diterbitkan
@@ -482,7 +458,6 @@ $csrf_token = generate_csrf_token();
                     </div>
                 </div>
 
-                <!-- 3. Tabel Pesan Masuk Pengunjung -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-sm font-extrabold text-blue-950 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
                         <i class="fa-solid fa-envelope text-blue-900"></i> Pesan Masuk Pengunjung
@@ -526,7 +501,6 @@ $csrf_token = generate_csrf_token();
         </div>
     </main>
 
-    <!-- Footer Diselaraskan -->
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 border-t border-slate-800 text-center">
         <p>&copy; <?= date('Y') ?> SMKS PGRI Bandung Management System. All Rights Reserved.</p>
     </footer>
