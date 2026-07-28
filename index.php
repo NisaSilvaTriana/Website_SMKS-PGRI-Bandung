@@ -229,7 +229,10 @@ $jml_guru = ($tot_guru_db > 0) ? $tot_guru_db : ($stat['guru'] ?? 22);
                             <div class="p-6">
                                 <span class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-clock mr-1"></i><?= date('d M Y', strtotime($b['created_at'])) ?></span>
                                 <h3 class="text-lg font-bold text-slate-900 mt-2 mb-3 leading-snug"><?= htmlspecialchars($b['judul']) ?></h3>
-                                <p class="text-slate-600 text-xs leading-relaxed line-clamp-3"><?= htmlspecialchars($b['isi']) ?></p>
+                                <!-- PENCETAKAN PRAPINJAU ISI BERITA TERFORMAT AMAN -->
+                                <p class="text-slate-600 text-xs leading-relaxed line-clamp-3">
+                                    <?= strip_tags($b['isi'], '<b><i><u><strong><em>') ?>
+                                </p>
                             </div>
                         </div>
                         <div class="p-6 pt-0">
