@@ -9,7 +9,6 @@ if (!isset($_GET['id'])) {
 $id = mysqli_real_escape_string($koneksi, $_GET['id']);
 $query = mysqli_query($koneksi, "SELECT * FROM berita WHERE id = '$id'");
 
-// Jika ID tidak ditemukan di database
 if (mysqli_num_rows($query) === 0) {
     header("Location: berita.php");
     exit;
@@ -69,7 +68,7 @@ $b = mysqli_fetch_assoc($query);
             <hr class="border-slate-100 mb-6">
 
             <div class="text-slate-700 text-sm sm:text-base leading-relaxed space-y-4">
-                <?= nl2br(htmlspecialchars($b['isi'])) ?>
+                <?= nl2br(strip_tags($b['isi'], '<b><i><u><strong><em><br><p>')) ?>
             </div>
         </article>
     </main>
